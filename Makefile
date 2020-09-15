@@ -6,7 +6,7 @@ OBJECTS_DIR = objs
 
 SRCS = ft_strlen.s
 
-ASAM = nasam
+ASAM = nasm
 
 AR = ar rcs
 
