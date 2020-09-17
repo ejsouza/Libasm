@@ -1,44 +1,35 @@
 # LC_ALL=C make -> show error in english
+
 NAME = libasm.a
 
-SOURCES_DIR = srcs
+SOURCES_DIR = srcs/
+OBJECTS_DIR = objs/
+INCLUDE = include
 
-OBJECTS_DIR = objs
+SRCS = ft_strlen.s\
+		hello.s \
 
-SRCS = ./srcs/ft_strlen.s\
+SOURCES = ${addprefix $(SOURCES_DIR), ${SRCS}}
 
-ASM = nasm
+OBJECTS = ${patsubst ${SOURCES_DIR}%.s,${OBJECTS_DIR}%.o,${SOURCES}}
 
-CC = gcc
+all: ${NAME}
 
-ASM_FLAGS = -f elf64
+${OBJECTS_DIR}%.o : ${SOURCES_DIR}%.s
+	@mkdir -p ${OBJECTS_DIR}
+	@nasm -f elf64 $< -o $@
 
-FLAGS = -Wall -Werror -Wextra
+${NAME}: ${OBJECTS} Makefile
+	ar rcs ${NAME} ${OBJECTS}
 
-AR = ar rcs
-
-OBJECTS = $(SRCS:.s=.o)
-
-all: $(NAME)
-
-$(NAME) : $(OBJECTS) Makefile
-	@$(AR) $@ $(OBJECTS) -o $(NAME)
-	@echo "\033[0;36m		***** Creating Library *****"
-
-$(OBJECTS_DIR)/%.o : %.s
-	@$(ASM) $(ASM_FLAGS) $(srcs) -c -o $@ $< 
-	@echo "\033[32m			***** Creating Objects *****"
-
-tests: all
-	@$(CC) $(FLAGS) -I /include/libasm.h -L. -lasm ./srcs/main.c -o tests
+test : ${NAME}
+	gcc -g main.c -I include ${NAME} -o simple_test
 
 clean:
-	@rm -f $(OBJECTS:%.o=$(OBJECTS_DIR)/%.o)
-	@echo "\033[33m 		***** Objects  deleted *****"
+	@rm -f ${OBJECTS}
 
 fclean: clean
-	@rm -f $(NAME)
-	@rm -f tests
-	@echo "\033[31m		**** The house is clean ****"
+	@rm -f ${NAME}
+	@rm -f simple_test
 
 re: fclean all
