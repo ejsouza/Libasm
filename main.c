@@ -5,7 +5,7 @@ size_t      ft_strlen(const char *s);
 void strlen_test()
 {
     printf("----- ft_strlen -----\n");
-    hello_world();
+    // hello_world();
     printf("lib : %zu\n", ft_strlen("Toto"));
 }
 
