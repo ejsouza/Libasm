@@ -10,6 +10,7 @@ ft_strlen:
         mov     rax, 0 ; set index to 0
 
 loop:
+        ; You can access an individual byte from memory with the syntax BYTE[address]
         cmp     BYTE [rdi + rax], 0
         je      return
         inc     rax
