@@ -1,14 +1,6 @@
 # include "include/libasm.h"
 
-void read() { printf("\033[1;31m"); }
-void yellow(){ printf("\033[1;33m"); }
-void green(){ printf("\033[1;32m"); }
-void magenta() { printf("\033[1;35m"); }
-void cyan() { printf( "\033[1;36m" ); }
-void purple_underline() { printf("\033[4;35m"); }
-void reset() { printf("\033[0m"); }
-
-char array[MAX_ARR][1024] =
+char array[MAX_ARR][KB] =
 {
     {"\0"},
     {"\n"},
@@ -29,13 +21,54 @@ char array[MAX_ARR][1024] =
     {"                                                                 [a!�<�/�K=�<W�Ar����LFl�4�3E�����;�ɛ�����:��ȵ׿�@]09HرAڬ�<=k�:�{�v�T]x��ۧ�S��   ���Uk?g�k�y�?��Ɵ���9 �Ŧ��p/���:�wy��w��̙�ed.��2�lY+|��&��؊��%w�&�@Nu�Hs_��(���ͮ���R���B��Ƨ�g|�O��x����5��$fCȤrG%"},
 
 };
+char cmp_s1[MAX_ARR][KB] =
+{
+    {""},
+    {"12"},
+    {"\n\n\n\0"},
+    {"toto"},
+    {"Bonjour"},
+    {"strcmp, strncmp - compare two strings"},
+    {"The  strcmp()  function compares the two strings s1 and s2."},
+    {"It returns an integer less than, equal to,"},
+    {"or greater than zero if s1 is found,"},
+    {"\0-"},
+    {"\\\\\\\\\\\\"},
+    {"!@#$%^&*("},
+    {"4242424242424242424242424242424242424242424242424242424242.42"},
+    {"aabbbcccddddeeeeefffffffggggggggg"},
+    {"Hello world!"},
+    {"<<<<<<<<<<<=>>>>>>>>>>>>"},
+    {"testing..."}
+
+};
+char cmp_s2[MAX_ARR][KB] =
+{
+    {" "},
+    {"123"},
+    {"\n\n\n\0 "},
+    {"tota"},
+    {"Bonj\nour"},
+    {"strcmp, strncmp - compare twO strings"},
+    {"The  strcmp()  function compares the two strings s1 and s3."},
+    {"It returns an integer less than, equal to"},
+    {"or greater than zero if  s1 is found,"},
+    {"-"},
+    {"\\\\\\\\\\"},
+    {"!@#$%^&*()"},
+    {"4242424242424242424242424242424242424242424242424242424242,42"},
+    {"aabbbcccddddeeeeefffffffgggggggg'g'"},
+    {"Hello world"},
+    {"<<<<<<<<<<<=>>>>>>>>>>>"},
+    {"testing,,,"}
+};
 
 void strlen_test(int flag)
 {
     size_t mine, sys, i;
     mine = sys = i = 0;
-    printf(UPRPL "--------------- ft_strlen(START) ---------------\n" RST);
-    for (; i < 17; i++)
+    printf(UPRPL "------------------ ft_strlen(START) ------------------\n" RST);
+    for (; i < ARR_LEN; i++)
     {
         if (flag)
         {
@@ -45,10 +78,9 @@ void strlen_test(int flag)
         sys = strlen(array[i]);
         mine == sys ? printf(BGRN"OK \u2705\n" RST) :  printf(BRED"KO \u274c\t"UYLW"mine %zu" "\t" BRED"\u2260"RST "  " UBL"sys %zu\n" RST, mine, sys);
     }
-    printf(UPRPL"\n--------------- ft_strlen(END) ---------------\n\n"RST);
+    printf(UPRPL"\n------------------ ft_strlen(END) ------------------\n\n"RST);
 
 }
-
 
 void strcpy_test(int flag)
 {
@@ -56,10 +88,10 @@ void strcpy_test(int flag)
     char dest_sys[1024];
     int ret, i;
     ret = i = 0;
-    printf(UPRPL "--------------- ft_strcpy(START) ---------------\n" RST);
+    printf(UPRPL "------------------ ft_strcpy(START) ------------------\n" RST);
 
 
-    for (; i < 17; i++)
+    for (; i < ARR_LEN; i++)
     {
         ft_strcpy(dest_usr, array[i]);
         strcpy(dest_sys, array[i]);
@@ -85,7 +117,66 @@ void strcpy_test(int flag)
 
     }
     
-    printf(UPRPL "--------------- ft_strcpy(END) ---------------\n" RST);
+    printf(UPRPL "------------------ ft_strcpy(END) ------------------\n\n" RST);
+
+}
+
+void strcmp_test(int flag)
+{
+    printf(UPRPL "------------------ ft_strcmp(START) ------------------\n" RST);
+    int     i, usr, sys;
+
+
+    i = usr = sys = 0;
+    printf(BYLW"======================== EQUAL ========================\n"RST);
+    for (; i < ARR_LEN; i++)
+    {
+        usr = ft_strcmp(array[i], array[i]);
+        sys = ft_strcmp(array[i], array[i]);
+        if (usr == sys)
+        {
+            printf(BGRN"OK \u2705\n" RST);
+            if (flag)
+            {
+                printf(BYLW"USR: %s\n" RST, array[i]);
+                printf(BBL"SYS: %s\n"RST, array[i]);
+            }
+        }
+        else
+        {
+            printf(BRED"KO \u274c\n" RST);
+            if (flag)
+            {
+                printf(BYLW"USR: %s\n" RST, array[i]);
+                printf(BBL"SYS: %s\n"RST, array[i]);
+            }
+        }
+    }
+    printf(BYLW"======================== !EQUAL ========================\n"RST);
+    for (i = 0; i < ARR_LEN; i++)
+    {
+        usr = ft_strcmp(cmp_s1[i], cmp_s2[i]);
+        sys = ft_strcmp(cmp_s1[i], cmp_s2[i]);
+        if (usr == sys)
+        {
+            printf(BGRN"OK \u2705\n" RST);
+            if (flag)
+            {
+                printf(BYLW"USR: %s\nUSR: %s\n" RST, cmp_s1[i], cmp_s2[i]);
+                printf(BBL"SYS: %s\nSYS: %s\n"RST, cmp_s1[i], cmp_s2[i]);
+            }
+        }
+        else
+        {
+            printf(BRED"KO \u274c\n" RST);
+            if (flag)
+            {
+                printf(BYLW"USR: %s\nUSR: %s\n" RST, cmp_s1[i], cmp_s2[i]);
+                printf(BBL"SYS: %s\nSYS: %s\n"RST, cmp_s1[i], cmp_s2[i]);
+            }
+        }
+    }
+    printf(UPRPL "------------------ ft_strcmp(END) ------------------\n" RST);
 
 }
 
@@ -99,5 +190,6 @@ int main(int argc, char **argv)
     }
     strlen_test(flag);
     strcpy_test(flag);
+    strcmp_test(flag);
     return (0);
 }
