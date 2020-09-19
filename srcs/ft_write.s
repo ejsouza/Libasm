@@ -11,7 +11,7 @@ ft_write:
     
 check_negative:
     test        rdx, rdx
-    js          negative
+    js          negative ; The js (or jne) jumps if the previous instructions sets the Sign Flag (SF)
     bt          rdi, 31  ;  check if last bit is set, what means is negative
     jc          negative ; jc is a jump if confidtion is met  
     cmp         rsi, 0x0 ; check for NULL pointer
