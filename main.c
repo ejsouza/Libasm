@@ -25,7 +25,7 @@ char cmp_s1[MAX_ARR][KB] =
 {
     {""},
     {"12"},
-    {"\n\n\n\0"},
+    {"->\n\n\n\0"},
     {"toto"},
     {"Bonjour"},
     {"strcmp, strncmp - compare two strings"},
@@ -46,7 +46,7 @@ char cmp_s2[MAX_ARR][KB] =
 {
     {" "},
     {"123"},
-    {"\n\n\n\0 "},
+    {"->\n\n\n\0 "},
     {"tota"},
     {"Bonj\nour"},
     {"strcmp, strncmp - compare twO strings"},
@@ -132,14 +132,14 @@ void strcmp_test(int flag)
     for (; i < ARR_LEN; i++)
     {
         usr = ft_strcmp(array[i], array[i]);
-        sys = ft_strcmp(array[i], array[i]);
+        sys = strcmp(array[i], array[i]);
         if (usr == sys)
         {
             printf(BGRN"OK \u2705\n" RST);
             if (flag)
             {
-                printf(BYLW"USR: %s\n" RST, array[i]);
-                printf(BBL"SYS: %s\n"RST, array[i]);
+                printf(BYLW"USR: %s\t" "%d\n" RST, array[i], usr);
+                printf(BBL"SYS: %s\t" "%d\n" RST, array[i], sys);
             }
         }
         else
@@ -147,8 +147,8 @@ void strcmp_test(int flag)
             printf(BRED"KO \u274c\n" RST);
             if (flag)
             {
-                printf(BYLW"USR: %s\n" RST, array[i]);
-                printf(BBL"SYS: %s\n"RST, array[i]);
+                printf(BYLW"USR: %s\t" "%d\n" RST, array[i], usr);
+                printf(BBL"SYS: %s\t" "%d\n" RST , array[i], sys);
             }
         }
     }
@@ -156,14 +156,14 @@ void strcmp_test(int flag)
     for (i = 0; i < ARR_LEN; i++)
     {
         usr = ft_strcmp(cmp_s1[i], cmp_s2[i]);
-        sys = ft_strcmp(cmp_s1[i], cmp_s2[i]);
-        if (usr == sys)
+        sys = strcmp(cmp_s1[i], cmp_s2[i]);
+        if ((usr < 0 && sys < 0) || (usr == 0 && sys == 0) || (usr > 0 && sys > 0))
         {
             printf(BGRN"OK \u2705\n" RST);
             if (flag)
             {
-                printf(BYLW"USR: %s\nUSR: %s\n" RST, cmp_s1[i], cmp_s2[i]);
-                printf(BBL"SYS: %s\nSYS: %s\n"RST, cmp_s1[i], cmp_s2[i]);
+                printf(BYLW"USR s1: %s\nUSR s2: %s\t" "%d\n" RST, cmp_s1[i], cmp_s2[i], usr);
+                printf(BBL"SYS s1: %s\nSYS s2: %s\t" "%d\n\n" RST, cmp_s1[i], cmp_s2[i], sys);
             }
         }
         else
@@ -171,8 +171,8 @@ void strcmp_test(int flag)
             printf(BRED"KO \u274c\n" RST);
             if (flag)
             {
-                printf(BYLW"USR: %s\nUSR: %s\n" RST, cmp_s1[i], cmp_s2[i]);
-                printf(BBL"SYS: %s\nSYS: %s\n"RST, cmp_s1[i], cmp_s2[i]);
+                printf(BYLW"USR s1: %s\nUSR s2: %s\t" "%d\n" RST, cmp_s1[i], cmp_s2[i], usr);
+                printf(BBL"SYS s1: %s\nSYS s2: %s\t" "%d\n\n" RST, cmp_s1[i], cmp_s2[i], sys);
             }
         }
     }
