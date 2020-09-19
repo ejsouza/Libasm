@@ -6,9 +6,9 @@ SOURCES_DIR = srcs/
 OBJECTS_DIR = objs/
 INCLUDE = include
 
-SRCS = ft_strlen.s\
+SRCS =  ft_strlen.s\
 		ft_strcpy.s\
-		hello.s \
+		ft_strcmp.s \
 
 SOURCES = ${addprefix $(SOURCES_DIR), ${SRCS}}
 
