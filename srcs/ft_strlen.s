@@ -7,8 +7,14 @@ section .text
     global      ft_strlen
 ; size_t strlen(const char *s);
 ft_strlen:
-        mov     rax, 0 ; set index to 0
-
+        xor     rax, rax ; set index to 0 - clear register
+        ; This is the fastest possible way to set register to 0
+        ; https://stackoverflow.com/questions/4749585/what-is-the-meaning-of-xor-in-x86-assembly
+        ; A B | A xor B       * let's say rax := 42
+        ; 0 0 | 0             *     101010
+        ; 1 0 | 1             * xor 101010
+        ; 0 1 | 1             *     000000
+        ; 1 1 | 0             *
 loop:
         ; You can access an individual byte from memory with the syntax BYTE[address]
         cmp     BYTE [rdi + rax], 0
