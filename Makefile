@@ -8,7 +8,8 @@ INCLUDE = include
 
 SRCS =  ft_strlen.s\
 		ft_strcpy.s\
-		ft_strcmp.s \
+		ft_strcmp.s\
+		ft_write.s\
 
 SOURCES = ${addprefix $(SOURCES_DIR), ${SRCS}}
 
