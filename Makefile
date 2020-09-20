@@ -6,10 +6,14 @@ SOURCES_DIR = srcs/
 OBJECTS_DIR = objs/
 INCLUDE = include
 
+FLAGS = -Wall -Werror -Wextra
+
 SRCS =  ft_strlen.s\
 		ft_strcpy.s\
 		ft_strcmp.s\
 		ft_write.s\
+		ft_read.s\
+		ft_strdup.s\
 
 SOURCES = ${addprefix $(SOURCES_DIR), ${SRCS}}
 
@@ -25,7 +29,7 @@ ${NAME}: ${OBJECTS} Makefile
 	ar rcs ${NAME} ${OBJECTS}
 
 test : ${NAME}
-	gcc -g main.c -I include ${NAME} -o simple_test
+	gcc ${FLAGS} -g main.c -I include ${NAME} -o simple_test
 
 clean:
 	@rm -f ${OBJECTS}
