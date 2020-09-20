@@ -86,8 +86,8 @@ void strcpy_test(int flag)
 {
     char dest_usr[1024];
     char dest_sys[1024];
-    int ret, i;
-    ret = i = 0;
+    int i;
+    i = 0;
     printf(UPRPL "------------------ ft_strcpy(START) ------------------\n" RST);
 
 
@@ -180,7 +180,7 @@ void strcmp_test(int flag)
 
 }
 
-void write_test(int flag)
+void write_test(void)
 {
     int i, usr, sys;
     printf(UPRPL "------------------ ft_write(START) ------------------\n" RST);
@@ -238,6 +238,124 @@ void write_test(int flag)
 
 }
 
+void read_test()
+{
+    int fd_usr, fd_sys, usr, sys;
+
+    fd_usr = open("Makefile", O_RDONLY);
+    fd_sys = open("main.c", O_RDONLY);
+
+    printf(UPRPL "------------------- ft_read(START) -------------------\n" RST);
+    printf(BYLW"\n======================== NULL ========================\n"RST);
+    usr = ft_read(-1, array[40], KB);
+    sys = read(-1, array[40], KB);
+    if (usr != sys) printf(BRED"KO \u274c\t" BRED"Does't return -1 for negative fd\n" RST);
+    else (printf(BGRN"OK \u2705\t" BCYN "Handle negative fd\n" RST));
+    usr = ft_read(fd_usr, NULL, KB);
+    sys = read(fd_sys, NULL, KB);
+    if (usr != sys) printf(BRED"KO \u274c\t" BYLW "Does't return -1 for NULL pointer\n" RST);
+    else (printf(BGRN"OK \u2705\t" BCYN "Handle NULL pointer\n" RST));
+    usr = ft_read(fd_usr, array[40], -42);
+    sys = read(fd_sys, array[40], -42);
+    if (usr != sys) printf(BRED"KO \u274c\t" BRED"Does't return -1 for negative length\n" RST);
+    else (printf(BGRN"OK \u2705\t" BCYN "Handle negative length\n" RST));
+    close(fd_usr);
+    close(fd_sys);
+    printf(BYLW"\n=================== READ MAKEFILE ====================\n"RST);
+    
+    bzero(array[40], KB);
+    bzero(array[41], KB);
+    fd_usr = open("Makefile", O_RDONLY);
+    usr = ft_read(fd_usr, array[40], KB);
+    close(fd_usr);
+    fd_sys = open("Makefile", O_RDONLY);
+    sys = read(fd_sys, array[41], KB);
+    if (usr != sys)
+    {
+        printf(BRED"KO \u274c\t" BRED"ft_read: %d\tread: %d\n" RST, usr, sys);
+    }
+    else
+    {
+        printf(BGRN"OK \u2705\t" BCYN "ft_read = %d\tread: %d\n" RST, usr, usr);
+    }
+    close(fd_sys);
+    bzero(array[40], KB);
+    bzero(array[41], KB);
+    printf(BYLW"\n===================== STD ENTRY ======================\n"RST);
+    printf(BMGNT"Enter some text and press return\n");
+    usr = ft_read(0, array[40], KB);
+    if (ft_strlen(array[40]))
+    {
+        printf(BGRN"OK \u2705\t %s", array[40]);
+    }
+    else
+    {
+        printf(BRED"KO \u274c\t ft_read() doesn work on the standard entroy\n");
+    }
+    printf(UPRPL "-------------------- ft_read(END) --------------------\n" RST);
+    
+}
+
+void strdup_test(int flag)
+{
+    char *usr, *sys;
+    int     i;
+
+    printf(UPRPL "------------------- ft_strdup(START) -------------------\n" RST);
+    for ( i = 0; i < ARR_LEN; i++)
+    {
+        usr = ft_strdup(array[i]);
+        sys = strdup(array[i]);
+        if (strcmp(usr, sys))
+        {
+            printf(BRED"KO \u274c\n" RST);
+            if (flag)
+            {
+                printf(BYLW"USR: %s\n"  RST, array[i]);
+                printf(BBL"SYS: %s\n"  RST, array[i]);
+            }
+
+        }
+        else
+        {
+            printf(BGRN"OK \u2705\n" RST);
+            if (flag)
+            {
+                printf(BYLW"USR: %s\n" RST, array[i]);
+                printf(BBL"SYS: %s\n" RST , array[i]);
+            }
+        }
+        free(usr);
+        free(sys);
+        usr = ft_strdup(cmp_s1[i]);
+        sys = strdup(cmp_s1[i]);
+        if (strcmp(usr, sys))
+        {
+            printf(BRED"KO \u274c\n" RST);
+            if (flag)
+            {
+                printf(BYLW"USR: %s\n" RST, cmp_s1[i]);
+                printf(BBL"SYS: %s\n" RST, cmp_s1[i]);
+            }
+
+        }
+        else
+        {
+            printf(BGRN"OK \u2705\n" RST);
+            if (flag)
+            {
+                printf(BYLW"USR: %s\n" RST, cmp_s1[i]);
+                printf(BBL"SYS: %s\n" RST , cmp_s1[i]);
+            }
+        }
+        free(usr);
+        free(sys);
+    }
+    
+    printf(UPRPL "-------------------- ft_strdup(END) --------------------\n" RST);
+
+}
+
 int main(int argc, char **argv)
 {
     int flag = 0;
@@ -246,9 +364,15 @@ int main(int argc, char **argv)
         if (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--verbose") == 0)
             flag = 1;
     }
+    if (flag == 0)
+    {
+        ;
+    }
     strlen_test(flag);
     strcpy_test(flag);
     strcmp_test(flag);
-    write_test(flag);
+    write_test();
+    read_test();
+    strdup_test(flag);
     return (0);
 }
