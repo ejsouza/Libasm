@@ -368,11 +368,12 @@ int main(int argc, char **argv)
     {
         ;
     }
-    strlen_test(flag);
-    strcpy_test(flag);
-    strcmp_test(flag);
-    write_test();
-    read_test();
-    strdup_test(flag);
+    // strlen_test(flag);
+    // strcpy_test(flag);
+    // strcmp_test(flag);
+    // write_test();
+    // read_test();
+    // strdup_test(flag);
+    printf("%d\n", ft_atoi_base("\v    \t\f \v\t\n  \f\t\b\r\n +1", 10));
     return (0);
 }
