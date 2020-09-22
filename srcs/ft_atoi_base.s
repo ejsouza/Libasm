@@ -27,32 +27,53 @@ trim:
     ;jmp     return
 
 check_sign:
+    xor     rax, rax
     cmp     BYTE[rdi + rcx], 0x2d ; - sign
     je      negative
     cmp     BYTE[rdi + rcx], 0x2b ; + sign
     je      positive
-    jmp     return
+    ; jmp     return
+
+extract_digit:
+    ; get number
+    cmp       BYTE[rdi + rcx], 0 ; end of number check if number is negative
+    je        is_negative
+    cmp       BYTE[rdi + rcx], 0x30 ; 0
+    jl        is_negative
+    movzx     r8, BYTE[rdi + rcx]
+    sub       r8, 48 ; 0
+    inc       rcx
+
+multiply:
+    imul    rax, rsi ; imul (signed interger multiply)
+    add     rax, r8
+    jmp     extract_digit
 
 negative:
     inc     rcx
-    mov     rcx, -42 ; to delete, only here for debug
-    ; save number as negative
-    jmp     return
+    mov     r9, 1 ; set flag to one if number is negative 
+    jmp     extract_digit
 
 positive:
     inc     rcx;
-    mov     rcx, 42 ; to delete, only here for debug
-    ; start parsing number
-    jmp     return
+    mov     r9, 0 ; set flag to zero if number is positive
+    jmp     extract_digit
 
 
 increment_trim:
     inc     rcx
     jmp     trim
 
+is_negative:
+    cmp     r9, 1
+    je     negate
+
 return:
-    mov     rax, rcx
     ret
+
+negate:
+    neg   rax
+    jmp   return
 
 return_zero:
     xor     rax, rax
