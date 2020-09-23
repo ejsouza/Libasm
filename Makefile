@@ -30,11 +30,15 @@ ${NAME}: ${OBJECTS} Makefile
 test : ${NAME}
 	gcc -g main.c -I include ${NAME} -o simple_test
 
+bonus : ${NAME}
+	gcc -g bonus.c -I include ${NAME} -o bonus
+
 clean:
 	@rm -f ${OBJECTS}
 
 fclean: clean
 	@rm -f ${NAME}
 	@rm -f simple_test
+	@rm -f bonus
 
 re: fclean all
