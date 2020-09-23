@@ -374,6 +374,8 @@ int main(int argc, char **argv)
     // write_test();
     // read_test();
     // strdup_test(flag);
-    printf("%d\n", ft_atoi_base("\v    \t\f \v\t\n  \f\t\b\r\n +1", 10));
+    // printf("usr: %d\n", ft_atoi_base("++2104/7\t483648545896587", 10));
+    // printf("sys: %d\n", atoi("++2104/7\t483648545896587"));
+   
     return (0);
 }
