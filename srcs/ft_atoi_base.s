@@ -4,9 +4,48 @@ section         .text
 ; ft_atoi_base(char *str, int base);
 ; ft_atoi_base(rdi, rsi);
 ft_atoi_base:
-    cmp     rdi, 0
+    cmp     rdi, 0 ; check if string is
     je      return_zero
-    xor     rcx, rcx
+    cmp     rsi, 0 ; base is equal to zero
+    je      return_zero
+    xor     rcx, rcx ; index for string
+    xor     r10, r10 ; index for base
+    xor     r12, r12 ; store base value
+    xor     rax, rax
+
+
+
+
+trim_base:
+    cmp     BYTE[rsi + r10], 0x20 ; space
+    je      increment_trim_base
+    cmp     BYTE[rsi + r10], 0x0A ; newline
+    je      increment_trim_base
+    cmp     BYTE[rsi + r10], 0x0D ; carriage return
+    je      increment_trim_base
+    cmp     BYTE[rsi + r10], 0x08 ; backspace
+    je      increment_trim_base
+    cmp     BYTE[rsi + r10], 0x09 ; horizontal tab
+    je      increment_trim_base
+    cmp     BYTE[rsi + r10], 0x0C ; form feed
+    je      increment_trim_base
+    cmp     BYTE[rsi + r10], 0x0B ; vertical tab
+    je      increment_trim_base
+
+bad_character:
+    cmp     BYTE[rsi + r10], 0
+    je      return_zero
+    cmp     BYTE[rsi + r10], 48 ; - negative base, return 0
+    jle     return_zero
+    cmp     BYTE[rsi + r10], 58 ; - positive sign, return 0
+    jge     return_zero
+
+extract_base:
+    cmp     BYTE[rsi + r10], 0
+    je      trim
+    movzx   r11, BYTE[rsi + r10]
+    sub     r11, 48
+    jmp     multiply_base
 
 trim:
     cmp     BYTE[rdi + rcx], 0x20 ; space
@@ -27,7 +66,6 @@ trim:
     ;jmp     return
 
 check_sign:
-    xor     rax, rax
     cmp     BYTE[rdi + rcx], 0x2d ; - sign
     je      negative
     cmp     BYTE[rdi + rcx], 0x2b ; + sign
@@ -39,15 +77,52 @@ extract_digit:
     cmp       BYTE[rdi + rcx], 0 ; end of number check if number is negative
     je        is_negative
     cmp       BYTE[rdi + rcx], 0x30 ; 0
-    jl        is_negative
+    jl        is_negative ; here it will jump if unit is less than 0 in the ascii table
     movzx     r8, BYTE[rdi + rcx]
-    sub       r8, 48 ; 0
+    ; sub       r8, 48 ; 0
     inc       rcx
 
+is_char:
+    cmp     r8, 96
+    jg      lower
+    cmp     r8, 64
+    jg      upper
+    cmp     r8, 47
+    jg      numeric
+    jmp     is_negative
+
+lower:
+    cmp     r8, 102
+    jg      is_negative
+    sub     r8, 97
+    add     r8, 10
+    jmp     multiply
+
+upper:
+    cmp     r8, 70
+    jg      is_negative
+    sub     r8, 65
+    add     r8, 10
+    jmp     multiply
+
+numeric:
+    cmp     r8, 57
+    jg      is_negative
+    sub     r8, 48
+
 multiply:
-    imul    rax, rsi ; imul (signed interger multiply)
+    imul    rax, r12 ; r12 is the base imul (signed interger multiply)
     add     rax, r8
     jmp     extract_digit
+    
+
+multiply_base:
+    imul   r12, 10 ; 10 because we are looking for 1 - 16
+    add    r12, r11
+    cmp    r12, 16
+    jg     return_zero ; base cannot be greater than 16
+    inc    r10
+    jmp    extract_base
 
 negative:
     inc     rcx
@@ -63,6 +138,10 @@ positive:
 increment_trim:
     inc     rcx
     jmp     trim
+
+increment_trim_base:
+    inc     r10
+    jmp     trim_base
 
 is_negative:
     cmp     r9, 1
