@@ -40,6 +40,6 @@ char        *ft_strdup(const char *s);
 ** bonus
 */
 
-int         ft_atoi_base(const char *str, int base);
+int         ft_atoi_base(const char *str, char *base);
 
 # endif
