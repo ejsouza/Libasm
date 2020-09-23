@@ -23,8 +23,6 @@ trim_base:
     je      increment_trim_base
     cmp     BYTE[rsi + r10], 0x0D ; carriage return
     je      increment_trim_base
-    cmp     BYTE[rsi + r10], 0x08 ; backspace
-    je      increment_trim_base
     cmp     BYTE[rsi + r10], 0x09 ; horizontal tab
     je      increment_trim_base
     cmp     BYTE[rsi + r10], 0x0C ; form feed
@@ -53,8 +51,6 @@ trim:
     cmp     BYTE[rdi + rcx], 0x0A ; newline
     je      increment_trim
     cmp     BYTE[rdi + rcx], 0x0D ; carriage return
-    je      increment_trim
-    cmp     BYTE[rdi + rcx], 0x08 ; backspace
     je      increment_trim
     cmp     BYTE[rdi + rcx], 0x09 ; horizontal tab
     je      increment_trim
@@ -96,6 +92,8 @@ lower:
     jg      is_negative
     sub     r8, 97
     add     r8, 10
+    cmp     r8, r12 ; if number extracted greater than base stop
+    jge     is_negative
     jmp     multiply
 
 upper:
@@ -103,12 +101,16 @@ upper:
     jg      is_negative
     sub     r8, 65
     add     r8, 10
+    cmp     r8, r12 ; if number extracted greater than base stop
+    jge     is_negative
     jmp     multiply
 
 numeric:
     cmp     r8, 57
     jg      is_negative
     sub     r8, 48
+    cmp     r8, r12
+    jge     is_negative
 
 multiply:
     imul    rax, r12 ; r12 is the base imul (signed interger multiply)
@@ -148,8 +150,14 @@ is_negative:
     je     negate
 
 return:
+    ; cmp    rax, 0x7CE66C50E283FFFF
+    ; jg     minus_one
     ret
 
+minus_one:
+    mov    rax, -1
+    ret
+    
 negate:
     neg   rax
     jmp   return
