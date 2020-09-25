@@ -13,6 +13,7 @@ SRCS =  ft_strlen.s\
 		ft_read.s\
 		ft_strdup.s\
 		ft_atoi_base.s\
+		ft_list_push_front_bonus.s\
 
 SOURCES = ${addprefix $(SOURCES_DIR), ${SRCS}}
 
