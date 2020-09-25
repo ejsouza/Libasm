@@ -220,6 +220,53 @@ void        atoi_base_test(int flag)
   printf(UPRPL "------------------ atoi_base(BINARY) END ------------------\n" RST);
 }
 
+void      push_front(t_list **begin, void *data)
+{
+  t_list *new_node = malloc(sizeof(t_list));
+  // t_list *tmp;
+
+  if (new_node == NULL)
+    return ;
+  new_node->data = data;
+  if ((*begin) == NULL)
+  {
+    new_node->next = NULL;
+    (*begin) = new_node;
+  }
+  else
+  {
+    new_node->next = (*begin)->next;
+    (*begin) = new_node;
+  }
+}
+
+void        list_push_front_test(void)
+{
+  t_list    *node = malloc(sizeof(t_list));
+
+  printf(UPRPL "------------------ list_push_front START ------------------\n" RST);
+  node->data = ft_strdup("Hello world!");
+  node->next = NULL;
+  t_list    *point_node = node;
+  t_list    *head;
+
+  char *str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+  for (int i = 0; i < 36; i++)
+  {
+    ft_list_push_front(&point_node, (&str[i]));
+  }
+  head = point_node;
+  while (head != NULL)
+  {
+    printf(BGRN"%s\n" RST, (char *)head->data);
+    head = head->next;
+  }
+  printf(UPRPL "------------------ list_push_front END ------------------\n" RST);
+}
+
+
+
 int         main(int argc, char **argv)
 {
     int flag = 0;
@@ -228,6 +275,8 @@ int         main(int argc, char **argv)
         if (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--verbose") == 0)
             flag = 1;
     }
-    atoi_base_test(flag);
+    // atoi_base_test(flag);
+    list_push_front_test();
+
     return (0);
 }
