@@ -29,6 +29,15 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 
+
+typedef struct      s_list
+{
+    void            *data;
+    struct s_list   *next; 
+    
+}                   t_list;
+
+
 size_t      ft_strlen(const char *s);
 char        *ft_strcpy(char *dest, const char *src);
 int         ft_strcmp(const char *s1, const char *s2);
@@ -41,5 +50,6 @@ char        *ft_strdup(const char *s);
 */
 
 int         ft_atoi_base(const char *str, char *base);
+void        ft_list_push_front(t_list **begin, void *data);
 
 # endif
