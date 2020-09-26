@@ -137,8 +137,8 @@ void        atoi_base_test(int flag)
       }
     }
   }
-  printf(UPRPL "------------------ atoi_base(10) END ------------------\n" RST);
-  printf(UPRPL "\n------------------ atoi_base(HEX) START ------------------\n" RST);
+  printf(UPRPL "------------------- atoi_base(10) END -------------------\n" RST);
+  printf(UPRPL "\n------------------ atoi_base(HEX) START -----------------\n" RST);
   for (i = 0; i < ARR_LEN; i++)
   {
     usr = ft_atoi_base(hex[i], "16");
@@ -163,9 +163,9 @@ void        atoi_base_test(int flag)
       }
     }
   }
-  printf(UPRPL "------------------ atoi_base(HEX) END ------------------\n" RST);
+  printf(UPRPL "------------------ atoi_base(HEX) END -------------------\n" RST);
 
-  printf(UPRPL "\n------------------ atoi_base(OCTAL) START ------------------\n" RST);
+  printf(UPRPL "\n---------------- atoi_base(OCTAL) START -----------------\n" RST);
   for (i = 0; i < ARR_LEN; i++)
   {
     usr = ft_atoi_base(oct_number[i], "8");
@@ -190,9 +190,9 @@ void        atoi_base_test(int flag)
       }
     }
   }
-  printf(UPRPL "------------------ atoi_base(OCTAL) END ------------------\n" RST);
+  printf(UPRPL "----------------- atoi_base(OCTAL) END ------------------\n" RST);
 
-   printf(UPRPL "\n------------------ atoi_base(BINARY) START ------------------\n" RST);
+   printf(UPRPL "\n---------------- atoi_base(BINARY) START ----------------\n" RST);
   for (i = 0; i < ARR_LEN; i++)
   {
     usr = ft_atoi_base(binary[i], "2");
@@ -217,32 +217,13 @@ void        atoi_base_test(int flag)
       }
     }
   }
-  printf(UPRPL "------------------ atoi_base(BINARY) END ------------------\n" RST);
+  printf(UPRPL "----------------- atoi_base(BINARY) END -----------------\n" RST);
 }
 
-void      push_front(t_list **begin, void *data)
-{
-  t_list *new_node = malloc(sizeof(t_list));
-  // t_list *tmp;
-
-  if (new_node == NULL)
-    return ;
-  new_node->data = data;
-  if ((*begin) == NULL)
-  {
-    new_node->next = NULL;
-    (*begin) = new_node;
-  }
-  else
-  {
-    new_node->next = (*begin)->next;
-    (*begin) = new_node;
-  }
-}
 
 void        push_front_and_size_test(int flag)
 {
-  printf(UPRPL "------------------ list_push_front START ------------------\n" RST);
+  printf(UPRPL "\n----------------- list_push_front START -----------------\n" RST);
 
   t_list    *node = malloc(sizeof(t_list));
   node->data = ft_strdup("Hello world!");
@@ -259,7 +240,7 @@ void        push_front_and_size_test(int flag)
     ft_list_push_front(&point_node, (&str[i]));
   }
   head = point_node;
-  i = LIST_LEN - 1;
+  i = LIST_LEN;
   while (head != NULL)
   {
     i--;
@@ -274,7 +255,7 @@ void        push_front_and_size_test(int flag)
         if (flag)
           printf(BGRN"OK \u2705\t" BCYN"%s\t" BBL"%s\n" RST, "Hello world!", (char *)head->data);
         else
-          printf(BGRN"OK \u2705\n" BCYN);
+          printf(BGRN"OK \u2705\n" RST);
       }
       else
       {
@@ -289,7 +270,7 @@ void        push_front_and_size_test(int flag)
       if (flag)
         printf(BGRN"OK \u2705\t" BCYN"%s\t" BBL"%s\n" RST,&str[i], (char *)head->data);
       else
-        printf(BGRN"OK \u2705\n" BCYN);
+        printf(BGRN"OK \u2705\n" RST);
     }
     head = head->next;
   }
@@ -299,9 +280,9 @@ void        push_front_and_size_test(int flag)
   if (len == 0)
   {
     if (flag)
-      printf(BGRN"OK \u2705\t" BCYN"Hanldes NULL lists\n");
+      printf(BGRN"OK \u2705\t" BCYN"Hanldes NULL lists\n" RST);
     else
-      printf(BGRN"OK \u2705\n");
+      printf(BGRN"OK \u2705\n" RST);
 
   }
   else
@@ -315,16 +296,16 @@ void        push_front_and_size_test(int flag)
   if (len == 1)
   {
     if (flag)
-      printf(BGRN"OK \u2705\t" BCYN"Hanldes lists with only one node\n");
+      printf(BGRN"OK \u2705\t" BCYN"Hanldes lists with only one node\n" RST);
     else
-      printf(BGRN"OK \u2705\n");
+      printf(BGRN"OK \u2705\n" RST);
   }
   else
   {
     if (flag)
       printf(BRED"KO \u274c\t" BYLW"Doesn't hanldes lists with only one node\n" RST);
     else
-      printf(BRED"KO \u274c\n");
+      printf(BRED"KO \u274c\n"RST);
   }
 
   len = ft_list_size(point_node);
@@ -356,7 +337,7 @@ int         main(int argc, char **argv)
         if (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--verbose") == 0)
             flag = 1;
     }
-    // atoi_base_test(flag);
+    atoi_base_test(flag);
     push_front_and_size_test(flag);
 
     return (0);
