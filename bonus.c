@@ -240,29 +240,110 @@ void      push_front(t_list **begin, void *data)
   }
 }
 
-void        list_push_front_test(void)
+void        push_front_and_size_test(int flag)
 {
-  t_list    *node = malloc(sizeof(t_list));
-
   printf(UPRPL "------------------ list_push_front START ------------------\n" RST);
+
+  t_list    *node = malloc(sizeof(t_list));
   node->data = ft_strdup("Hello world!");
   node->next = NULL;
   t_list    *point_node = node;
   t_list    *head;
+  int       len = 0;
+  int       i = 0;
 
   char *str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-  for (int i = 0; i < 36; i++)
+  for (; i < LIST_LEN; i++)
   {
     ft_list_push_front(&point_node, (&str[i]));
   }
   head = point_node;
+  i = LIST_LEN - 1;
   while (head != NULL)
   {
-    printf(BGRN"%s\n" RST, (char *)head->data);
+    i--;
+    if (ft_strcmp(&str[i], (char *)head->data))
+    {
+      /* I check for "Hello world" here because it's created with an
+      ** ft_strdup and it doesn't exist in the string 'str' and it is the
+      ** first added to the list that will become the last in the list.
+      */ 
+      if (ft_strcmp((char *)head->data, "Hello world!") == 0)
+      {
+        if (flag)
+          printf(BGRN"OK \u2705\t" BCYN"%s\t" BBL"%s\n" RST, "Hello world!", (char *)head->data);
+        else
+          printf(BGRN"OK \u2705\n" BCYN);
+      }
+      else
+      {
+        if (flag)
+          printf(BRED"KO \u274c\t" BYLW"%s\t"BMGNT"%s\n" RST, &str[i], (char *)head->data);
+        else
+          printf(BRED"KO \u274c\n" RST);
+      }
+    }
+    else
+    { 
+      if (flag)
+        printf(BGRN"OK \u2705\t" BCYN"%s\t" BBL"%s\n" RST,&str[i], (char *)head->data);
+      else
+        printf(BGRN"OK \u2705\n" BCYN);
+    }
     head = head->next;
   }
   printf(UPRPL "------------------ list_push_front END ------------------\n" RST);
+  printf(UPRPL "\n-------------------- list_size START --------------------\n" RST);
+  len = ft_list_size(NULL);
+  if (len == 0)
+  {
+    if (flag)
+      printf(BGRN"OK \u2705\t" BCYN"Hanldes NULL lists\n");
+    else
+      printf(BGRN"OK \u2705\n");
+
+  }
+  else
+  {
+    if (flag)
+      printf(BRED"KO \u274c\t" BYLW"Doesn't handle NULL lists\n" RST);
+    else
+      printf(BRED"KO \u274c\n");
+  }
+  len = ft_list_size(node);
+  if (len == 1)
+  {
+    if (flag)
+      printf(BGRN"OK \u2705\t" BCYN"Hanldes lists with only one node\n");
+    else
+      printf(BGRN"OK \u2705\n");
+  }
+  else
+  {
+    if (flag)
+      printf(BRED"KO \u274c\t" BYLW"Doesn't hanldes lists with only one node\n" RST);
+    else
+      printf(BRED"KO \u274c\n");
+  }
+
+  len = ft_list_size(point_node);
+  // LIST_LEN + 1 because the first node int the list is "Hello world!"
+  if (len == LIST_LEN + 1)
+  {
+    if (flag)
+      printf(BGRN"OK \u2705\t" BCYN"The size of the list is %d (LIST_LEN + 1)\n" RST, LIST_LEN + 1);
+    else
+      printf(BGRN"OK \u2705\n" RST);
+  }
+  else
+  {
+    if (flag)
+      printf(BRED"KO \u274c\t" BYLW"The size of the list MUST BE %d (LIST_LEN + 1) and not %d\n" RST, LIST_LEN + 1, len);
+    else
+      printf(BRED"KO \u274c\n" RST);
+  }
+  printf(UPRPL "--------------------- list_size END ---------------------\n" RST);
 }
 
 
@@ -276,7 +357,7 @@ int         main(int argc, char **argv)
             flag = 1;
     }
     // atoi_base_test(flag);
-    list_push_front_test();
+    push_front_and_size_test(flag);
 
     return (0);
 }
