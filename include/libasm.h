@@ -17,9 +17,10 @@
 
 # define RST "\e[0m"
 
-# define MAX_ARR 42
-# define ARR_LEN 17
-# define KB      1024
+# define MAX_ARR    42
+# define ARR_LEN    17
+# define LIST_LEN   36
+# define KB         1024
 
 # include <stdio.h>
 # include <string.h>
@@ -50,6 +51,7 @@ char        *ft_strdup(const char *s);
 */
 
 int         ft_atoi_base(const char *str, char *base);
-void        ft_list_push_front(t_list **begin, void *data);
+void        ft_list_push_front(t_list **begin_list, void *data);
+int         ft_list_size(t_list *begin_list);
 
 # endif
