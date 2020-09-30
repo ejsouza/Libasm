@@ -220,6 +220,21 @@ void        atoi_base_test(int flag)
   printf(UPRPL "----------------- atoi_base(BINARY) END -----------------\n" RST);
 }
 
+void        list_sort(t_list **begin, int(*cmp)())
+{
+  t_list *head = (*begin);
+  t_list *next = head->next;
+  t_list  *tmp;
+
+  while (head != NULL)
+  {
+
+    head = head->next;
+  }
+
+  int res = cmp(head->data, next->next);
+  printf("res := %d\n", res);
+}
 
 void        push_front_and_size_test(int flag)
 {
@@ -325,6 +340,8 @@ void        push_front_and_size_test(int flag)
       printf(BRED"KO \u274c\n" RST);
   }
   printf(UPRPL "--------------------- list_size END ---------------------\n" RST);
+
+  list_sort(&point_node, &strcmp);
 }
 
 
@@ -337,8 +354,13 @@ int         main(int argc, char **argv)
         if (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--verbose") == 0)
             flag = 1;
     }
-    atoi_base_test(flag);
-    push_front_and_size_test(flag);
+    // atoi_base_test(flag);
+    // push_front_and_size_test(flag);
+    t_list *node = malloc(sizeof(t_list));
+    node->data = strdup("Hello");
+    node->next = NULL;
 
-    return (0);
+  ft_list_push_front(&node, "toto");
+  printf("returned %d\n", ft_list_sort(&node, &strcmp));
+  return (0);
 }
