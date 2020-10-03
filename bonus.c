@@ -344,7 +344,39 @@ void        push_front_and_size_test(int flag)
   list_sort(&point_node, &strcmp);
 }
 
+void      list_size_test(flag)
+{
+  t_list *head = malloc(sizeof(t_list));
 
+  head->data = strdup("First to become last");
+  char    ch = '0';
+  char    ptr[2];
+  ptr[1] = '\0';
+  int     i, len;
+  i = 1;
+  while (i <= 10)
+  {
+    len = ft_list_size(head);
+    if (len != i)
+    {
+         if (flag)
+          printf(BRED"KO \u274c\t" BYLW"The size of the list MUST BE %d and not %d\n" RST, i, len);
+        else
+         printf(BRED"KO \u274c\n" RST);
+    }
+    else
+    {
+      if (flag)
+        printf(BGRN"OK \u2705\t" BCYN"The size of the list is %d\n" RST, len);
+      else
+        printf(BGRN"OK \u2705\n" RST);
+    }
+    ptr[0] = ch;
+    ft_list_push_front(&head, ptr);
+    ch += 1;
+    i++;
+  }
+}
 
 int         main(int argc, char **argv)
 {
@@ -356,11 +388,6 @@ int         main(int argc, char **argv)
     }
     // atoi_base_test(flag);
     // push_front_and_size_test(flag);
-    t_list *node = malloc(sizeof(t_list));
-    node->data = strdup("Hello");
-    node->next = NULL;
-
-  ft_list_push_front(&node, "toto");
-  printf("returned %d\n", ft_list_sort(&node, &strcmp));
+    // list_size_test(flag);
   return (0);
 }
