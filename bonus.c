@@ -220,22 +220,6 @@ void        atoi_base_test(int flag)
   printf(UPRPL "----------------- atoi_base(BINARY) END -----------------\n" RST);
 }
 
-void        list_sort(t_list **begin, int(*cmp)())
-{
-  t_list *head = (*begin);
-  t_list *next = head->next;
-  t_list  *tmp;
-
-  while (head != NULL)
-  {
-
-    head = head->next;
-  }
-
-  int res = cmp(head->data, next->next);
-  printf("res := %d\n", res);
-}
-
 void        push_front_and_size_test(int flag)
 {
   printf(UPRPL "\n----------------- list_push_front START -----------------\n" RST);
@@ -341,13 +325,12 @@ void        push_front_and_size_test(int flag)
   }
   printf(UPRPL "--------------------- list_size END ---------------------\n" RST);
 
-  list_sort(&point_node, &strcmp);
 }
 
 void      list_size_test(flag)
 {
   t_list *head = malloc(sizeof(t_list));
-
+  printf(UPRPL "\n-------------------- list_size START --------------------\n" RST);
   head->data = strdup("First to become last");
   char    ch = '0';
   char    ptr[2];
@@ -376,8 +359,93 @@ void      list_size_test(flag)
     ch += 1;
     i++;
   }
+  printf(UPRPL "--------------------- list_size END ---------------------\n" RST);
+
 }
 
+void      list_sort_test()
+{
+  printf(UPRPL "-------------------- list_sort START --------------------\n" RST);
+  
+    t_list  *node = malloc(sizeof(t_list));
+    t_list  *head;
+    int     i = 1;
+    node->data = strdup(oct_number[0]);
+    node->next = NULL;
+      
+    while (i < ARR_LEN)
+    {
+      ft_list_push_front(&node, oct_number[i]);
+      i++;
+    }
+    ft_list_push_front(&node, ft_strdup("Hello World!"));
+    ft_list_push_front(&node, ft_strdup("some random text"));
+    ft_list_push_front(&node, ft_strdup("bonus part"));
+    ft_list_push_front(&node, ft_strdup("Not very inspired today"));
+    ft_list_push_front(&node, ft_strdup("Keep it up"));
+    ft_list_push_front(&node, ft_strdup("Bonjour!"));
+    printf(BYLW"LIST BEFORE SORTING\n"RST);
+    head = node;
+    while (head)
+    {
+      printf(BCYN"%s\n" RST, head->data);
+      head = head->next;
+    }
+    head = node;
+    ft_list_sort(&head, &strcmp);
+    printf(BYLW"LIST After SORTING\n"RST);
+    while (head)
+    {
+      printf(BGRN"%s\n" RST, head->data);
+      head = head->next;
+    }
+  
+  printf(UPRPL "--------------------- list_sort END ---------------------\n" RST);
+
+}
+
+void        remove_if()
+{
+  t_list    *node = malloc(sizeof(t_list));
+  t_list    *head;
+  printf(UPRPL "------------------ list_remove_if END -------------------\n" RST);
+
+  node->data = ft_strdup("started!");
+  node->next = NULL;
+  head = node;
+  ft_list_push_front(&head, strdup("things"));
+  ft_list_push_front(&head, strdup("getting"));
+  ft_list_push_front(&head, strdup("never"));
+  ft_list_push_front(&head, strdup("is"));
+  ft_list_push_front(&head, strdup("ahead"));
+  ft_list_push_front(&head, strdup("you"));
+  ft_list_push_front(&head, strdup("getting"));
+  ft_list_push_front(&head, strdup("not"));
+  ft_list_push_front(&head, strdup("of"));
+  ft_list_push_front(&head, strdup("secret"));
+  ft_list_push_front(&head, strdup("only"));
+  ft_list_push_front(&head, strdup("The"));
+  t_list *list = head;
+  while (head)
+  {
+    printf(BCYN"%s ", head->data);
+    head = head->next;
+  }
+  printf("\n" RST);
+  ft_list_remove_if(&list, "only", &ft_strcmp);
+  ft_list_remove_if(&list, "not", &ft_strcmp);
+  ft_list_remove_if(&list, "you", &ft_strcmp);
+  ft_list_remove_if(&list, "never", &ft_strcmp);
+  ft_list_remove_if(&list, "things", &ft_strcmp);
+  head = list;
+  while (head)
+  {
+    printf(BGRN"%s ", head->data);
+    head = head->next;
+  }
+  printf("\n" RST);
+  printf(UPRPL "------------------ list_remove_if END -------------------\n" RST);
+}
 int         main(int argc, char **argv)
 {
     int flag = 0;
@@ -386,8 +454,10 @@ int         main(int argc, char **argv)
         if (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--verbose") == 0)
             flag = 1;
     }
-    // atoi_base_test(flag);
-    // push_front_and_size_test(flag);
-    // list_size_test(flag);
+    atoi_base_test(flag);
+    push_front_and_size_test(flag);
+    list_size_test(flag);
+    list_sort_test();
+    remove_if();
   return (0);
 }
