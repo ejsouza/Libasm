@@ -34,27 +34,35 @@ ${OBJECTS_DIR}%.o : ${SOURCES_DIR}%.s
 	@nasm -f elf64 $< -o $@
 
 ${NAME}: ${OBJECTS} Makefile
-	ar rcs ${NAME} ${OBJECTS}
+	@ar rcs ${NAME} ${OBJECTS}
+	@printf '\e[1;36mLIBRIRY ASM\e[0m \e[1;32m \u2705\e[0m\n'
 
 tests : ${NAME}
-	gcc -g main.c -I include ${NAME} -o tests
+	@gcc -g main.c -I include ${NAME} -o tests
+	@printf '\e[1;36mMAIN TESTS\e[0m \e[1;32m \u2705\e[0m\n'
 
 ${OBJECTS_DIR}%.o : ${BONUS_SRCS}%.s
 	@mkdir -p ${OBJECTS_DIR}
 	@nasm -f elf64 $< -o $@
 
-bonus: ${NAME} ${OBJECTS}  ${OBJECTS_BONUS}
-	ar rcs ${NAME} ${OBJECTS} ${OBJECTS_BONUS}
+bonus: ${NAME}  ${OBJECTS_BONUS}
+	@ar rcs ${NAME}  ${OBJECTS_BONUS}
+	@printf '\e[1;36mBONUS ADDED TO LIBRIRY\e[0m \e[1;32m \u2705\e[0m\n'
+
 
 bonus_tests : ${NAME} bonus
 	gcc -g bonus.c -I include ${NAME} -o bonus
+	@printf '\e[1;36mBONUS TESTS\e[0m \e[1;32m \u2705\e[0m\n'
 
 clean:
 	@rm -f ${OBJECTS} ${OBJECTS_BONUS}
+	@printf '\e[1;93mOBJECTS REMOVED\e[0m \e[1;32m \u2705\e[0m\n'
 
 fclean: clean
 	@rm -f ${NAME}
 	@rm -f tests
 	@rm -f bonus
+	@printf '\e[1;31mEVERYTHING REMOVED\e[0m \e[1;32m \u2705\e[0m\n'
 
 re: fclean all
+	@printf '\e[1;32mHOUSE IS CLEAN, REBUILDING...\e[0m \e[1;32m \u2705\e[0m\n'
