@@ -16,6 +16,7 @@ SRCS =  ft_strlen.s\
 		ft_list_push_front_bonus.s\
 		ft_list_size_bonus.s\
 		ft_list_sort_bonus.s \
+		ft_list_remove_if_bonus.s\
 
 SOURCES = ${addprefix $(SOURCES_DIR), ${SRCS}}
 
