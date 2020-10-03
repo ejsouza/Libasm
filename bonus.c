@@ -327,7 +327,7 @@ void        push_front_and_size_test(int flag)
 
 }
 
-void      list_size_test(flag)
+void      list_size_test(int flag)
 {
   t_list *head = malloc(sizeof(t_list));
   printf(UPRPL "\n-------------------- list_size START --------------------\n" RST);
@@ -388,15 +388,15 @@ void      list_sort_test()
     head = node;
     while (head)
     {
-      printf(BCYN"%s\n" RST, head->data);
+      printf(BCYN "%s\n", (char *)head->data);
       head = head->next;
     }
     head = node;
     ft_list_sort(&head, &strcmp);
-    printf(BYLW"LIST After SORTING\n"RST);
+    printf(BYLW "LIST After SORTING\n"RST);
     while (head)
     {
-      printf(BGRN"%s\n" RST, head->data);
+      printf(BGRN"%s\n" RST, (char *)head->data);
       head = head->next;
     }
   
@@ -428,7 +428,7 @@ void        remove_if()
   t_list *list = head;
   while (head)
   {
-    printf(BCYN"%s ", head->data);
+    printf(BCYN"%s ", (char *)head->data);
     head = head->next;
   }
   printf("\n" RST);
@@ -440,7 +440,7 @@ void        remove_if()
   head = list;
   while (head)
   {
-    printf(BGRN"%s ", head->data);
+    printf(BGRN"%s ", (char *)head->data);
     head = head->next;
   }
   printf("\n" RST);

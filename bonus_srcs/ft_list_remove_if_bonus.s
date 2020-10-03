@@ -39,10 +39,10 @@ ft_list_remove_if:
 free_unique_node:
     mov         rax,qword[rbp-0x20]
     mov         rdi,qword[rax]
-    call        free ; free data
+    call        free wrt ..plt ; free data
     mov         rax,qword[rbp-0x20]
     mov         rdi,rax
-    call        free
+    call        free wrt ..plt
     jmp         return
 
 increment_outer_loop:
@@ -72,10 +72,10 @@ increment_outer_loop:
     mov         qword[rax+0x8],0x0
     mov         rax,qword[rbp-0x30]
     mov         rdi,qword[rax]
-    call        free
+    call        free wrt ..plt
     mov         rax,qword[rbp-0x30]
     mov         rdi,rax
-    call        free
+    call        free wrt ..plt
     jmp         return
 
 free_node_in_between:
@@ -84,10 +84,10 @@ free_node_in_between:
     mov         qword[rcx+0x8],rax
     mov         rax,qword[rbp-0x30]
     mov         rdi,qword[rax]
-    call        free
+    call        free wrt ..plt
     mov         rax,qword[rbp-0x30]
     mov         rdi,rax
-    call        free
+    call        free wrt ..plt
     jmp         return
 
 curr_to_next_node:

@@ -364,18 +364,12 @@ int main(int argc, char **argv)
         if (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--verbose") == 0)
             flag = 1;
     }
-    if (flag == 0)
-    {
-        ;
-    }
-    // strlen_test(flag);
-    // strcpy_test(flag);
-    // strcmp_test(flag);
-    // write_test();
-    // read_test();
-    // strdup_test(flag);
-    // printf("usr: %d\n", ft_atoi_base("++2104/7\t483648545896587", 10));
-    // printf("sys: %d\n", atoi("++2104/7\t483648545896587"));
    
+    strlen_test(flag);
+    strcpy_test(flag);
+    strcmp_test(flag);
+    write_test();
+    read_test();
+    strdup_test(flag);
     return (0);
 }
