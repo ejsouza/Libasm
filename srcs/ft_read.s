@@ -1,6 +1,7 @@
 section         .text
 
     global      ft_read
+    extern    __errno_location
 ; ssize_t read(int fd, void *buf, size_t count);
 ; ssize_t read(rdi, rsi, rdx);
 ft_read:
@@ -13,9 +14,20 @@ check_negative:
     cmp         rsi, 0x0 ; check for NULL pointer
     je          negative
     syscall
+    cmp         rax, 0x0
+    jl          set_errno ; read returned -1 set errono
     
 exit:
     ret
+
+set_errno:
+    neg         rax
+    mov         rcx, rax
+    call        __errno_location wrt ..plt
+    mov         [rax], rcx
+    mov         rax, -1
+    ret
+
 negative:
     mov         rax, -1
     ret
